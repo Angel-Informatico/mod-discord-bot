@@ -1,0 +1,79 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - 'docker/**'
+      - 'src/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'docker/**'
+      - 'src/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        architecture: [amd64, arm64] # Support both common architectures
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up repo name in environment
+        run: echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB
+
+      - name: Set sanitized branch name
+        run: echo "BRANCH_NAME=$(echo ${{ github.ref_name }} | tr '/' '-')" >> $GITHUB_ENV
+
+      - name: Set up QEMU # Enable multi-platform builds
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to DockerHub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/images/niby/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/${{ matrix.architecture }}
+          tags: |
+            ${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}-${{ github.sha }}
+            ${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}
+            ghcr.io/${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}-${{ github.sha }}
+            ghcr.io/${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
