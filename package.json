@@ -4,9 +4,9 @@
   "version": "1.1.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "dotenvx run -f .env.production -- node dist/index.js",
-    "dev": "tsc & dotenvx run -f .env -- node dist/index.js",
+    "dev": "dotenvx run -f .env -- node dist/index.js",
     "clean": "rm -r dist",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
@@ -19,7 +19,7 @@
     "@flytri/lyrics-finder": "^1.0.7",
     "@iamtraction/google-translate": "^2.0.1",
     "@parvineyvazov/json-translator": "^1.8.0",
-    "@types/express": "^4.17.17",
+    "@types/express": "^4.17.23",
     "@types/express-flash": "^0.0.2",
     "azlyrics-ext": "^1.0.1",
     "body-parser": "^1.20.2",
@@ -67,6 +67,7 @@
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.20.3",
     "typescript": "^5.1.6"
