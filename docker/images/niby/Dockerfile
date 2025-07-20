@@ -10,19 +10,22 @@ RUN npm ci
 
 COPY . .
 
-RUN npx tsc
+RUN npm run build
 
 # Fresh image to reduce image size
 FROM node:20-alpine
 
 WORKDIR /app
 
+COPY --from=builder /app/locales ./locales
+COPY --from=builder /app/web ./web
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
+RUN mkdir -p /app/logs
+
 ENV NODE_ENV=production
-ENV PORT=3000
 
 EXPOSE 3000
 
