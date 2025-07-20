@@ -7,7 +7,7 @@ import loadFiles from '@/utils/loadFiles';
 if (process.env.CACHE_DB == 'true') {
    applySpeedGooseCacheLayer(mongoose, {
       enabled: process.env.CACHE_DB == 'true',
-      redisUri: process.env.REDIS_URL,
+      redisUri: process.env.REDIS_URL || 'redis:6379',
    });
 
    plugin(SpeedGooseCacheAutoCleaner);
@@ -29,7 +29,9 @@ class Database {
       new Promise((resolve, reject) => {
          this.loadPlugins()
             .then(() => {
-               connect(process.env.DATABASE_URL)
+               connect(process.env.DATABASE_URL || 'mongodb://niby-mongo:27017/niby-discord-bot', {
+                  autoIndex: true, // Create indexes automatically
+               })
                   .then(() => {
                      resolve(true);
                      console.success('Conectado a la base de datos de MongoDB'.blue);
