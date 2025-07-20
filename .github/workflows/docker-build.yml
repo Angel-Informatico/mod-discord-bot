@@ -71,7 +71,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/images/quick-status/Dockerfile
+          file: docker/images/niby/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/${{ matrix.architecture }}
