@@ -1,8 +1,8 @@
 import { applySpeedGooseCacheLayer, SpeedGooseCacheAutoCleaner } from 'speedgoose';
 import mongoose, { connect, plugin } from 'mongoose';
-import Client from '../structures/Client';
+import Client from '@/structures/Client';
 
-import loadFiles from '../utils/loadFiles';
+import loadFiles from '@/utils/loadFiles';
 // Load cache if enabled
 if (process.env.CACHE_DB == 'true') {
    applySpeedGooseCacheLayer(mongoose, {
@@ -13,8 +13,8 @@ if (process.env.CACHE_DB == 'true') {
    plugin(SpeedGooseCacheAutoCleaner);
 }
 
-import GuildSchema, { IGuild } from './schemas/GuildSchema';
-import UserSchema, { IUser } from './schemas/UserSchema';
+import GuildSchema, { IGuild } from '@/database/schemas/GuildSchema';
+import UserSchema, { IUser } from '@/database/schemas/UserSchema';
 import { Locale } from 'discord.js';
 class Database {
    private client: Client; // Replace 'any' with your actual client type

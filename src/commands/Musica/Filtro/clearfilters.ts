@@ -1,7 +1,7 @@
 import { Player } from 'lavalink-client';
-import Client from '../../../structures/Client';
-import { Command } from '../../../structures/Command';
-import { Embed } from '../../../extenders/discord/Embed';
+import Client from '@/structures/Client';
+import { Command } from '@/structures/Command';
+import { Embed } from '@/extenders/discord/Embed';
 
 export default {
    async execute(client: Client, message, args, prefix, guildData, userData, player:Player) {

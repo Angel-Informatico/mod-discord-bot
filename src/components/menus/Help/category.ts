@@ -1,10 +1,10 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
-import help, { getHelpMessage, buildCategoryEmbeds } from '../../../commands/Info/Bot/help';
-import Client from '../../../structures/Client';
-import { Category } from '../../../structures/Category';
-import { SubCategory } from '../../../structures/SubCategory';
-import { ErrorEmbed } from '../../../extenders/discord/Embed';
-import { Component } from '../../../typings/component';
+import help, { getHelpMessage, buildCategoryEmbeds } from '@/commands/Info/Bot/help';
+import Client from '@/structures/Client';
+import { Category } from '@/structures/Category';
+import { SubCategory } from '@/structures/SubCategory';
+import { ErrorEmbed } from '@/extenders/discord/Embed';
+import { Component } from '@/typings/component';
 export default {
    async execute(client: Client, interaction, args, guildData) {
       const executorId = args[0];

@@ -1,4 +1,4 @@
-import { config } from 'dotenv';
+import { config } from '@dotenvx/dotenvx';
 import { resolve } from 'path';
 
 const EnvFile = process.env.NODE_ENV === 'development' ? '.env.dev' : '.env';

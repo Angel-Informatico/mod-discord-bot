@@ -1,8 +1,8 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildChannel, GuildMember, Role } from 'discord.js';
-import { ErrorEmbed } from '../../extenders/discord/Embed';
-import Client from '../../structures/Client';
-import { Locale } from '../../typings/locales';
-import loadFiles from '../../utils/loadFiles';
+import { ErrorEmbed } from '@/extenders/discord/Embed';
+import Client from '@/structures/Client';
+import { Locale } from '@/typings/locales';
+import loadFiles from '@/utils/loadFiles';
 import os from 'node-os-utils';
 export default class GeneralUtils {
    client: Client;

@@ -1,8 +1,8 @@
 import { Message, TextChannel } from 'discord.js';
-import { Embed } from '../../extenders/discord/Embed';
+import { Embed } from '@/extenders/discord/Embed';
 import { Player } from 'lavalink-client';
-import Client from '../../structures/Client';
-import LavalinkManager from '../../structures/LavalinkManager';
+import Client from '@/structures/Client';
+import LavalinkManager from '@/structures/LavalinkManager';
 
 export default async (manager: LavalinkManager, player: Player) => {
    // @ts-ignore

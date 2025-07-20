@@ -1,12 +1,12 @@
-import { Embed, ErrorEmbed } from '../../../extenders/discord/Embed';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
 import { ActionRowBuilder, Collection, StringSelectMenuBuilder } from 'discord.js';
-import Client from '../../../structures/Client';
-import { Command } from '../../../structures/Command';
-import { Category } from '../../../structures/Category';
-import { SubCategory } from '../../../structures/SubCategory';
-import EmojiList from '../../../config/EmojiList';
+import Client from '@/structures/Client';
+import { Command } from '@/structures/Command';
+import { Category } from '@/structures/Category';
+import { SubCategory } from '@/structures/SubCategory';
+import EmojiList from '@/config/EmojiList';
 // @ts-ignore
-import {version} from '../../../../package.json'
+import {version} from '@root/package.json'
 export default {
    ALIASES: ['h', 'ayuda', 'bothelp'],
    OPTIONS: [

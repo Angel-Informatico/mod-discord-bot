@@ -1,5 +1,5 @@
-import { ExecuteSystems } from '../../../../handlers/SystemHandler';
-import Client from '../../../../structures/Client';
+import { ExecuteSystems } from '@/handlers/SystemHandler';
+import Client from '@/structures/Client';
 export default async (client: Client) => {
    console.success(`Sesión iniciada como: ${client.user?.tag} | Cluster #${client.cluster.id}`, {
       sendWebhook: true,

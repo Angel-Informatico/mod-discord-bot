@@ -8,15 +8,15 @@ import {
    TextChannel,
    VoiceChannel,
 } from 'discord.js';
-import { CustomRequester } from '../../typings/music';
-import Client from '../Client';
-import { Embed, ErrorEmbed } from '../../extenders/discord/Embed';
-import { Locale } from '../../typings/locales';
+import { CustomRequester } from '@/typings/music';
+import Client from '@/structures/Client';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
+import { Locale } from '@/typings/locales';
 import { AudioOutputs, Player, Queue, RepeatMode, SearchResult, SourceLinksRegexes, Track } from 'lavalink-client';
-import music from '../../config/music';
+import music from '@/config/music';
 import undici from 'undici';
 import { JSDOM } from 'jsdom';
-import { IDJSettings, IGuild } from '../../database/schemas/GuildSchema';
+import { IDJSettings, IGuild } from '@/database/schemas/GuildSchema';
 
 export default class MusicUtils {
    client: Client;

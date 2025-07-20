@@ -16,26 +16,26 @@ import {
    SlashCommandBuilder,
 } from 'discord.js';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
-import ClientUtils from '../structures/ClientUtils';
+import ClientUtils from '@/structures/ClientUtils';
 import path from 'path';
-import EmojiList from '../config/EmojiList';
-import { CommandCooldown } from '../typings/command';
-import { Component, Components } from '../typings/component';
-import { Cache, RedisCache } from './Cache';
-import Database from '../database/mongoose';
+import EmojiList from '@/config/EmojiList';
+import { CommandCooldown } from '@/typings/command';
+import { Component, Components } from '@/typings/component';
+import { Cache, RedisCache } from '@/structures/Cache';
+import Database from '@/database/mongoose';
 import { promises } from 'fs';
-import { Locale } from '../typings/locales';
-import ezLoad from '../utils/ezLoad';
-import { Command } from './Command';
-import CustomStatus from '../config/status';
+import { Locale } from '@/typings/locales';
+import ezLoad from '@/utils/ezLoad';
+import { Command } from '@/structures/Command';
+import CustomStatus from '@/config/status';
 import * as redis from 'redis';
-import LavalinkManager from './LavalinkManager';
-import { Category } from './Category';
-import GiveawaysManager from './GiveawaysManager';
-import { SubCategory } from './SubCategory';
-import { Snipe } from '../typings/snipes';
-import { System } from '../typings/system';
-import PaypalManager from './PaypalManager';
+import LavalinkManager from '@/structures/LavalinkManager';
+import { Category } from '@/structures/Category';
+import GiveawaysManager from '@/structures/GiveawaysManager';
+import { SubCategory } from '@/structures/SubCategory';
+import { Snipe } from '@/typings/snipes';
+import { System } from '@/typings/system';
+import PaypalManager from '@/structures/PaypalManager';
 
 const DefaultClientOptions = {
    shards: getInfo().SHARD_LIST, // An array of shards that will get spawned

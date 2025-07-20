@@ -1,6 +1,6 @@
 const baseUrl = `${process.cwd()}/src/dashboard/views/`;
 import express from 'express';
-import Client from '../../structures/Client';
+import Client from '@/structures/Client';
 const router = express.Router();
 
 router.get('/', async (req, res) => {

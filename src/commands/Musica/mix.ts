@@ -1,7 +1,7 @@
-import { Command } from '../../structures/Command';
-import Client from '../../structures/Client';
-import music from '../../config/music';
-import { Embed, ErrorEmbed } from '../../extenders/discord/Embed';
+import { Command } from '@/structures/Command';
+import Client from '@/structures/Client';
+import music from '@/config/music';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
 import {
    ActionRowBuilder,
    AnyComponentBuilder,

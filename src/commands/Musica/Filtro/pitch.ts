@@ -1,7 +1,7 @@
 import { Player } from 'lavalink-client';
-import Client from '../../../structures/Client';
-import { Command } from '../../../structures/Command';
-import { Embed, ErrorEmbed } from '../../../extenders/discord/Embed';
+import Client from '@/structures/Client';
+import { Command } from '@/structures/Command';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
 
 export default {
    OPTIONS: [

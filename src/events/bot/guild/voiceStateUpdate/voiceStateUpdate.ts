@@ -1,7 +1,7 @@
 import { VoiceState } from 'discord.js';
-import Client from '../../../../structures/Client';
-import { ExecuteSystems } from '../../../../handlers/SystemHandler';
-// import { SystemHandler } from "../../../../handlers/SystemHandler";
+import Client from '@/structures/Client';
+import { ExecuteSystems } from '@/handlers/SystemHandler';
+// import { SystemHandler } from '@/handlers/SystemHandler';
 
 export default async (client: Client, oldState:VoiceState, newState:VoiceState) => {
    const { guild, id } = oldState;

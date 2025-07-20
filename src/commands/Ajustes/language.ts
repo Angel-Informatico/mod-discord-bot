@@ -1,7 +1,7 @@
-import { Command } from '../../structures/Command';
-import Client from '../../structures/Client';
-import { Embed, ErrorEmbed } from '../../extenders/discord/Embed';
-import { default as LocaleList } from '../../config/LocaleEmojis';
+import { Command } from '@/structures/Command';
+import Client from '@/structures/Client';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
+import { default as LocaleList } from '@/config/LocaleEmojis';
 import {
    ActionRowBuilder,
    AnyComponentBuilder,

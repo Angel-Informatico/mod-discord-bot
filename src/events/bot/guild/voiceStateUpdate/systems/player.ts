@@ -1,8 +1,8 @@
 import { Message, PermissionFlagsBits, TextChannel } from 'discord.js';
-import { Embed } from '../../../../../extenders/discord/Embed';
-import Client from '../../../../../structures/Client';
+import { Embed } from '@/extenders/discord/Embed';
+import Client from '@/structures/Client';
 import { Player } from 'lavalink-client';
-import { System } from '../../../../../typings/system';
+import { System } from '@/typings/system';
 
 export default {
    async execute(client: Client, guildData, userData, oldState, newState) {

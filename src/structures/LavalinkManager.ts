@@ -1,8 +1,8 @@
 import { LavalinkManager as DefaultLavalinkManager, DefaultQueueStore, ManagerOptions } from 'lavalink-client';
-import Client from './Client';
-import RedisStore from './utils/RedisStore';
-import RedisWatcher from './utils/CustomWatcher';
-import music from '../config/music';
+import Client from '@/structures/Client';
+import RedisStore from '@/structures/utils/RedisStore';
+import RedisWatcher from '@/structures/utils/CustomWatcher';
+import music from '@/config/music';
 import path from 'path';
 
 export default class LavalinkManager extends DefaultLavalinkManager {

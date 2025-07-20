@@ -1,8 +1,8 @@
 import i18n from 'i18n';
 import { Locale as DiscordLocaleList } from 'discord.js';
-import LocaleList from '../../config/LocaleEmojis';
-import EmojiList from '../../config/EmojiList';
-import { Locale } from '../../typings/locales';
+import LocaleList from '@/config/LocaleEmojis';
+import EmojiList from '@/config/EmojiList';
+import { Locale } from '@/typings/locales';
 
 interface EmojiLocale {
    [key: string]: string;

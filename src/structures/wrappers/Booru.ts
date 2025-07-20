@@ -3,7 +3,7 @@
 // @ts-nocheck
 // @ts-ignore
 import fetch from 'node-fetch';
-import {Cache,  RedisCache } from '../Cache';
+import {Cache,  RedisCache } from '@/structures/Cache';
 
 const SearchType = {
    PAGE: 'dapi',

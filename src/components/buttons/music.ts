@@ -1,7 +1,7 @@
 import { Player } from 'lavalink-client';
-import Client from '../../structures/Client';
-import { Component } from '../../typings/component';
-import { Embed } from '../../extenders/discord/Embed';
+import Client from '@/structures/Client';
+import { Component } from '@/typings/component';
+import { Embed } from '@/extenders/discord/Embed';
 import { TextInputBuilder, TextInputStyle, ModalBuilder, ActionRowBuilder } from 'discord.js';
 
 export default {

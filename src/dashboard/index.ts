@@ -14,11 +14,11 @@ const server = http.createServer(app);
 const io = new Server(server);
 import flash from 'connect-flash';
 import rateLimit from 'express-rate-limit';
-import Client from '../structures/Client';
-import extractRoute from './utils/extractRoute';
-import loadFiles from '../utils/loadFiles';
-import texts, { premiumPlans } from './config';
-import socketHandler from './handlers/socketHandler';
+import Client from '@/structures/Client';
+import extractRoute from '@/dashboard/utils/extractRoute';
+import loadFiles from '@/utils/loadFiles';
+import texts, { premiumPlans } from '@/dashboard/config';
+import socketHandler from '@/dashboard/handlers/socketHandler';
 export default async (client: Client) => {
    console.info('Cargando dashboard...'.yellow);
 

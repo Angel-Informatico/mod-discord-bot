@@ -1,9 +1,9 @@
 import { ActionRowBuilder, AnyComponentBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { Embed } from '../../../extenders/discord/Embed';
-import Client from '../../../structures/Client';
-import { Command } from '../../../structures/Command';
-import { validSearchPlatforms } from '../../Musica/play';
-import music from '../../../config/music';
+import { Embed } from '@/extenders/discord/Embed';
+import Client from '@/structures/Client';
+import { Command } from '@/structures/Command';
+import { validSearchPlatforms } from '@/commands/Musica/play';
+import music from '@/config/music';
 export default {
    PERMISSIONS: ['ManageGuild'],
    BOT_PERMISSIONS: ['ManageGuild'],

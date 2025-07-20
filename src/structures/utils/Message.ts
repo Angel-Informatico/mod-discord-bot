@@ -1,4 +1,4 @@
-import Client from '../Client';
+import Client from '@/structures/Client';
 
 import {
    ActionRowBuilder,
@@ -11,7 +11,7 @@ import {
    TextInputStyle,
    parseEmoji,
 } from 'discord.js';
-import { Embed, ErrorEmbed } from '../../extenders/discord/Embed';
+import { Embed, ErrorEmbed } from '@/extenders/discord/Embed';
 
 type PaginationOptions = {
    startFrom?: number;

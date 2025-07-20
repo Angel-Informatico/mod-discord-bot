@@ -1,6 +1,6 @@
 import { Player } from 'lavalink-client';
-import Client from '../../../structures/Client';
-import { Command } from '../../../structures/Command';
+import Client from '@/structures/Client';
+import { Command } from '@/structures/Command';
 
 export default {
    execute(client: Client, message, args, prefix, guildData, userData, player:Player) {
