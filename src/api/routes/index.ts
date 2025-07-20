@@ -1,10 +1,9 @@
-const baseUrl = `${process.cwd()}/src/dashboard/views/`;
 import express from 'express';
 import passport from 'passport';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-   res.render(baseUrl + 'index.ejs');
+   res.render('index.ejs');
 });
 
 router.get(`/auth/discord/callback`, passport.authenticate(`discord`, { failureRedirect: "/" }), (req, res) => {

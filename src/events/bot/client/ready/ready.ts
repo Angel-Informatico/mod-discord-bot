@@ -14,7 +14,7 @@ export default async (client: Client) => {
 
    client.setInvite();
    // require the Dashboard
-   if (process.env.DASHBOARD == "true") await import('../../../../dashboard/index').then(pull => pull.default(client));
+   if (process.env.DASHBOARD == "true") await import('../../../../api/index').then(pull => pull.default(client));
 
    await client.publishCommands();
    // Wait 1s before releasing
