@@ -74,7 +74,7 @@ export default async (client: Client) => {
    app.use(flash());
    // Global Variables
    app.use((req, res, next) => {
-      // @ts-ignore
+      // @ts-expect-error
       req.active = req.path.split('/')[1];
       res.locals.success = req.flash('success');
       res.locals.error = req.flash('error');
@@ -146,7 +146,7 @@ async function loadRoutes() {
    if (RUTA_ARCHIVOS.length) {
       for (const rutaArchivo of RUTA_ARCHIVOS) {
          try {
-            const BASE_PATH = __dirname.toString().slice(1) + '/dist/dashboard/routes';
+            const BASE_PATH = __dirname.toString().slice(1) + '/dashboard/routes';
             const PATH = '/' + rutaArchivo.split('\\')[0].split('/').slice(1).join('/').split('.')[0].replace(BASE_PATH, '');
             if (PATH.endsWith('routes/index')) {
                app.use('/', (await import(rutaArchivo)).default);

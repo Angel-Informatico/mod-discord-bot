@@ -67,6 +67,5 @@ export default {
             ],
          });
 
-      // @ts-ignore
    },
 } as Command;

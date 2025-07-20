@@ -92,7 +92,6 @@ export default {
                )
                .addField(
                   `${client.allemojis.builder} ${client.translate(guildData.language, `${this.LANG_KEY}.embed.field.permissions`)}`,
-                  // @ts-ignore
                   `>>> ${
                      role.id == message.guild.ownerId
                         ? `\`${client.translate(guildData.language, `PERMISSIONS.Owner`)}\``

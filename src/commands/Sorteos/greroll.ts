@@ -88,7 +88,7 @@ export default {
                            .setEmoji(guildData.giveaway.emoji),
                      ]),
                   ],
-                  // @ts-ignore
+                  // @ts-expect-error
                   allowedMentions: { parse: ['users'] },
                   replyToGiveaway: true,
                },
@@ -106,7 +106,7 @@ export default {
                            .setEmoji(guildData.giveaway.emoji),
                      ]),
                   ],
-                  // @ts-ignore
+                  // @ts-expect-error
                   allowedMentions: { parse: ['users'] },
                   replyToGiveaway: true,
                },

@@ -4,10 +4,9 @@ import Client from '@/structures/Client';
 
 export default async (client: Client, guild:Guild) => {
    const guildLocale = Object.keys(Locale).find((key) => Locale[key] === guild.preferredLocale) as Locale;
-   // @ts-ignore
    const GUILD_DATA = await client.db.getGuildData(guild.id, guildLocale);
 
-   // @ts-ignore
-   const eventName = this.default.NAME;
+   // @ts-expect-error
+   const eventName = this.default.NAME as string;
    return ExecuteSystems(client, eventName, GUILD_DATA, null, guild);
 };

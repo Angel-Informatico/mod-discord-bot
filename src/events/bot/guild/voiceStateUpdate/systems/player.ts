@@ -26,7 +26,6 @@ export default {
             if (oldState.id == client.user?.id) {
                const player = client.lavalink.getPlayer(oldState.guild.id);
                if (!player || !player?.textChannelId) return;
-               // @ts-ignore
                const GUILD_DATA = guildData;
                const textChannel = client.channels.cache.get(player.textChannelId) as TextChannel;
                // MUST GOT KICKED
@@ -167,7 +166,6 @@ export async function handleLeaveTimeout(client: Client, oldState, guildData) {
                player.set('noMembersMsg', null);
                player.set('noMembersTimeout', null);
                if (textChannel && PAUSED_MSG) {
-                  // @ts-ignore
                   const infoMessage = {
                      embeds: [
                         new Embed().addFields([

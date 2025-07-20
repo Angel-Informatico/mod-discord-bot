@@ -31,8 +31,7 @@ export default async (manager: LavalinkManager, player: Player, song: Track) => 
       textChannel
          .send({
             embeds: [queueEmbed],
-            // @ts-ignore
-            components: queueComponents,
+            components: queueComponents.map(component => component.toJSON()),
          })
          .then((msg) => {
             player.set(`playingMsg`, msg);

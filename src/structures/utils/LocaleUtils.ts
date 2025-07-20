@@ -23,7 +23,7 @@ class LocaleUtils {
       const originalLocaleValues = getAllStrings(i18n.getCatalog(i18n.getLocale()));
       const localeValues = getAllStrings(i18n.getCatalog(locale));
       const totalTranslatedTexts:number = originalLocaleValues.length;
-      const completedTranslations:number = locale == i18n.getLocale() 
+      const completedTranslations:number = locale == i18n.getLocale()
       ? totalTranslatedTexts
       : originalLocaleValues.length == localeValues.length ? localeValues.length : localeValues.filter((value) => !originalLocaleValues.includes(value)).length;
 
@@ -53,7 +53,9 @@ class LocaleUtils {
    }
 
    inlineDescriptionLocalization(name: string, text: string) {
-      return i18n.getLocales().map((locale) => this.inlineLocalization(DiscordLocaleList[locale] || locale, name, text));
+      return i18n.getLocales().map((locale) => {
+         return this.inlineLocalization(DiscordLocaleList[locale] || locale, name, text);
+      });
    }
 
    getLocales(): Locale[] {
@@ -62,9 +64,15 @@ class LocaleUtils {
 
    load() {
       console.info('Cargando i18n...');
+
+      const locales = Object.keys(DiscordLocaleList)
+         .filter((locale) =>{
+            return Object.keys(LocaleList).includes(locale)
+         });
+
       i18n.configure({
-         locales: Object.keys(DiscordLocaleList).filter((locale) => Object.keys(LocaleList).includes(locale)),
-         defaultLocale: process.env.LANGUAGE,
+         locales: locales,
+         defaultLocale: 'SpanishES',
          directory: `${process.cwd()}/locales`,
          retryInDefaultLocale: true,
          objectNotation: true,
@@ -84,6 +92,7 @@ class LocaleUtils {
             disable: false,
          },
       });
+
       console.success(`Cargados ${Object.keys(LocaleList).length} idiomas!`);
    }
 }

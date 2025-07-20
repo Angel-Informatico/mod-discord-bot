@@ -250,7 +250,7 @@ export default {
                         .setStyle(TextInputStyle.Short);
 
                      const MODAL_ROW = new ActionRowBuilder().addComponents(MODAL_PAGE_OPTION);
-                     // @ts-ignore
+                     // @ts-expect-error
                      MODAL.addComponents(MODAL_ROW);
                      await i?.showModal(MODAL);
                      await i

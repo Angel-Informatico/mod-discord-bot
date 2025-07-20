@@ -104,13 +104,11 @@ export default {
                )
                .addField(
                   `${client.allemojis.role} ${client.translate(guildData.language, `${this.LANG_KEY}.embed.field.roles`)}`,
-                  // @ts-ignore
                   '>>> ' + memberRoles.join(', '),
                   false,
                )
                .addField(
                   `${client.allemojis.builder} ${client.translate(guildData.language, `${this.LANG_KEY}.embed.field.permissions`)}`,
-                  // @ts-ignore
                   `>>> ${
                      member.id == message.guild.ownerId
                         ? `\`${client.translate(guildData.language, `PERMISSIONS.Owner`)}\``

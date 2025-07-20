@@ -53,7 +53,7 @@ class Database {
       console.success(`${mongoosePlugins.length} plugin${mongoosePlugins.length == 1 ? '' : 's'} cargados!`);
    }
 
-   getGuildData(guildId: string, language = process.env.LANGUAGE):IGuild {
+   getGuildData(guildId: string, language:string = process.env.LANGUAGE):IGuild {
       if(!language || !(language in Locale)) language = process.env.LANGUAGE;
       return GuildSchema.findOrCreate({ guildId }, {guildId, language});
    }

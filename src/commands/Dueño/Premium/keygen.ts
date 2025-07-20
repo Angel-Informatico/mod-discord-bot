@@ -48,7 +48,6 @@ export default {
          });
 
       const type = args[1]?.toLowerCase() || "user";
-      // @ts-ignore
 
       const translatedObject = client.translate(guildData.language, `${this.LANG_PATH}.OPTIONS.1STRING_CHOICES.CHOICES`); // {off: "Desactivar", track: "Pista", queue: "Cola"};
       const keyTypes = Object.keys(translatedObject) as string[];

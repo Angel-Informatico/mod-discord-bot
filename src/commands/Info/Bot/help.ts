@@ -5,8 +5,7 @@ import { Command } from '@/structures/Command';
 import { Category } from '@/structures/Category';
 import { SubCategory } from '@/structures/SubCategory';
 import EmojiList from '@/config/EmojiList';
-// @ts-ignore
-import {version} from '@root/package.json'
+import {version} from '../../../../package.json'
 export default {
    ALIASES: ['h', 'ayuda', 'bothelp'],
    OPTIONS: [
@@ -132,7 +131,6 @@ export function buildCategoryEmbeds(
    const embeds: Embed[] = [];
 
    const texts:TextOptions[] = CATEGORIAS.map((CATEGORIA) => {
-      // @ts-ignore
       const COMANDOS_CATEGORIA = commands.filter((c) => c.CATEGORY?.DEFAULT_NAME == CATEGORIA.DEFAULT_NAME);
 
       const PARENT_CATEGORY = CATEGORIA.PARENT_CATEGORY;

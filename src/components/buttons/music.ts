@@ -99,7 +99,7 @@ export default {
                const MODAL = new ModalBuilder()
                   .setCustomId('searchSong')
                   .setTitle(client.translate(guildData.language, `${this.LANG_KEY}.searchSong.modal.title`))
-                  // @ts-ignore
+                  // @ts-expect-error
                   .addComponents(new ActionRowBuilder().addComponents(MODAL_PAGE_OPTION));
 
                await interaction?.showModal(MODAL);
@@ -130,7 +130,7 @@ export default {
                const MODAL = new ModalBuilder()
                   .setCustomId('vol_song')
                   .setTitle(client.translate(guildData.language, `${this.LANG_KEY}.volume.modal.title`))
-                  // @ts-ignore
+                  // @ts-expect-error
                   .addComponents(new ActionRowBuilder().addComponents(MODAL_PAGE_OPTION));
 
                await interaction?.showModal(MODAL);

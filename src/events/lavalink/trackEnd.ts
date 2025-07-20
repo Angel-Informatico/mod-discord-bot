@@ -5,7 +5,6 @@ import Client from '@/structures/Client';
 import LavalinkManager from '@/structures/LavalinkManager';
 
 export default async (manager: LavalinkManager, player: Player) => {
-   // @ts-ignore
    const client: Client = manager.client;
 
    const PLAYINGMSG_MAP = player.get('playingMsg') as Message;
@@ -18,7 +17,6 @@ export default async (manager: LavalinkManager, player: Player) => {
          embeds: [
             new Embed()
                .addField(
-                  // @ts-ignore
                   PLAYINGMSG_MAP.embeds[0].fields[0].name.replace(
                      `${client.allemojis.disk} ${client.translate(language, `UTILS.MUSIC.getPlayingEmbed.title`)}:`,
                      `${client.allemojis.yes} ${client.translate(language, `UTILS.MUSIC.getPlayingEmbed.ended`)}:`,

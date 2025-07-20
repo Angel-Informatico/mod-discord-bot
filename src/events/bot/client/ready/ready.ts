@@ -20,7 +20,7 @@ export default async (client: Client) => {
    // Wait 1s before releasing
    await client.utils.general.delay(1000);
    await client.prepareCommands();
-   
+
    // @ts-ignore
    const eventName = this.default.NAME;
    return ExecuteSystems(client, eventName, null, null);
