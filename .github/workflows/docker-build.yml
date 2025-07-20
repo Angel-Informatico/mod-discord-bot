@@ -31,15 +31,8 @@ jobs:
       matrix:
         architecture: [amd64, arm64] # Support both common architectures
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up repo name in environment
-        run: echo "REPO_NAME=$(echo ${{ github.event.repository.name }})" >> $GITHUB_ENV
-
-      - name: Set sanitized branch name
-        run: echo "BRANCH_NAME=$(echo ${{ github.ref_name }} | tr '/' '-')" >> $GITHUB_ENV
 
       - name: Set up QEMU # Enable multi-platform builds
         uses: docker/setup-qemu-action@v3
@@ -47,33 +40,47 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Login to Docker Hub
+        if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Login to GitHub Container Registry
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Login to DockerHub
-        if: github.event_name == 'push'
-        uses: docker/login-action@v3
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-,enable={{is_default_branch}}
+            type=sha,prefix=pr-,enable=${{ github.event_name == 'pull_request' }}
+            type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build and Push Docker Image
+      - name: Build Docker Image and Push
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/images/niby/Dockerfile
+          file: docker/images/quick-status/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/${{ matrix.architecture }}
           tags: |
-            ${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}-${{ github.sha }}
-            ${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}
-            ghcr.io/${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}-${{ github.sha }}
-            ghcr.io/${{ env.REPO_NAME }}:${{ matrix.architecture }}-${{ env.BRANCH_NAME }}
+            ${{ env.IMAGE_NAME }}:${{ matrix.architecture }}-${{ github.ref_name }}
+            ${{ env.IMAGE_NAME }}:${{ matrix.architecture }}-${{ github.sha }}
+            ${{ github.ref_name == 'main' && format('{0}:{1}', env.IMAGE_NAME, matrix.architecture) || '' }}
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ matrix.architecture }}-${{ github.ref_name }}
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ matrix.architecture }}-${{ github.sha }}
+            ${{ github.ref_name == 'main' && format('ghcr.io/{0}:{1}', env.IMAGE_NAME, matrix.architecture) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
