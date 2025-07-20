@@ -92,7 +92,12 @@ Advanced moderation, a **premium music system** including sources like **Spotify
   - [✍ Setup](#-setup)
     - [☑️ Requirements](#️-requirements)
     - [📋 Installation](#-installation)
+    - [🐳 Using Docker](#-using-docker)
+      - [Dockerfile](#dockerfile)
+      - [Docker Compose](#docker-compose)
     - [⚙️ Configuration](#️-configuration)
+    - [🗄️ Caching](#️-caching)
+      - [Before and after cache](#before-and-after-cache)
     - [🛠️ Auto Recovery Music System](#️-auto-recovery-music-system)
     - [🔨 Creating Commands (HYBRID)](#-creating-commands-hybrid)
       - [💬 Prefix Commands](#-prefix-commands)
@@ -138,6 +143,40 @@ git clone https://github.com/dewstouh/niby-discord-bot
 ```bash
 npm install
 ```
+
+### 🐳 Using Docker
+
+#### Dockerfile
+There is a script inside `package.json` to build the Docker image, you can use it with the following command:
+```bash
+npm run docker:build
+```
+
+https://github.com/user-attachments/assets/9e2f1fb7-16d9-4d6e-bb5f-6d1b89c51568
+
+And then you can run it using
+```bash
+npm run docker:run
+```
+
+Or stop it and remove it using
+```bash
+npm run docker:stop
+npm run docker:rm
+```
+
+#### Docker Compose
+
+You must configure the environment variables in the docker compose for the `BOT_TOKEN` and `CLIENT_SECRET` *(optional a dashboard is going to be used)*
+
+```bash
+docker-compose up -d
+```
+
+https://github.com/user-attachments/assets/17afa27f-054c-499e-8886-cb74460689fc
+
+> ⚠️ If you want to use Docker, you must have Docker and Docker Compose installed on your system. You can find the installation instructions in the [Docker documentation](https://docs.docker.com/get-docker/) and [Docker Compose documentation](https://docs.docker.com/compose/install/).
+
 
 ### ⚙️ Configuration
 
@@ -186,10 +225,25 @@ PORT = 3000
 
 When you have the bot configured and its modules installed, you can turn it on using `npm run start` or if you want to turn it on in development mode you can use `npm run dev`.
 
+> [!NOTE]  
+> The development command runs the compiled bot, this is due to discord-hybrid-sharding not supporting ts files, so you must compile the bot before running it in development mode, for hot-reload functionality please use the `/reload` command.
+
+### 🗄️ Caching
+Niby uses Redis for caching the database and general bot data, this allows for a **faster response time** and **reduced load on the database**.
+
+#### Before and after cache
+
+**Before:**
+> ![](https://i.imgur.com/iNPfbgs.png)
+
+**After:**
+> ![](https://i.imgur.com/yMBACwT.png)
+
 ### 🛠️ Auto Recovery Music System
 Niby has an auto recovery music system that allows you to recover the music playback in case of a crash or unexpected shutdown. This system will automatically resume the last played track when the bot is restarted.
 
 Here is an example:
+https://github.com/user-attachments/assets/9febe4e3-3b1e-4749-b84e-25bc70764e65
 
 
 ### 🔨 Creating Commands (HYBRID)
