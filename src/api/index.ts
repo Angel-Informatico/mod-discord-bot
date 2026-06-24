@@ -1,7 +1,6 @@
 import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
@@ -28,7 +27,6 @@ export default async (client: Client) => {
    app.set('trust proxy', 1); // Si pasa por cloudflare, pillamos las IPs de la peña de verdad :)
    app.set('view engine', 'ejs'); // Esto establece EJS como el motor de plantillas por defecto
    app.set('views', path.join(process.cwd(), 'web/views'));
-   app.set('view engine', 'ejs');
    app.use(express.static(path.join(process.cwd(), 'web/public')));
 
    const limiter = rateLimit({
@@ -62,7 +60,7 @@ export default async (client: Client) => {
 
    const sessionMiddleware = session({
       store: process.env.CACHE_DB == 'true' ? new RedisStore({ client: client.redisClient }) : new MemoryStore({ checkPeriod: 86400000 }),
-      secret: '#@%#&^$^$%@$^$&%#$%@|#@|€|@#|#||¬€~#€#€¬@#~@~@~#@~@~@~|#@|#|@#@||@#¬€~#||@####LLLLLLNIGEGR#536c53cc6%5%tv%4y4hrgrggrgrgf4n',
+      secret: process.env.SESSION_SECRET || '#@%#&^$^$%@$^$&%#$%@|#@|€|@#|#||¬€~#€#€¬@#~@~@~#@~@~@~|#@|#|@#@||@#¬€~#||@####LLLLLLNIGEGR#536c53cc6%5%tv%4y4hrgrggrgrgf4n',
       resave: false,
       saveUninitialized: false,
    });
@@ -88,17 +86,11 @@ export default async (client: Client) => {
       next();
    });
    app.use(cookieParser());
-   app.use(bodyParser.json({ limit: '50mb' }));
-   app.use(
-      bodyParser.urlencoded({
-         extended: true,
-         limit: '50mb',
-      }),
-   );
-   app.use(express.json());
+   app.use(express.json({ limit: '50mb' }));
    app.use(
       express.urlencoded({
          extended: true,
+         limit: '50mb',
       }),
    );
 

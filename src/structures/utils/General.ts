@@ -13,16 +13,25 @@ export default class GeneralUtils {
    }
 
    levenshteinDistance(a: string, b: string): number {
-      if (!a.length) return b.length || Infinity;
-      if (!b.length) return a.length || Infinity;
+      if (a.length === 0) return b.length;
+      if (b.length === 0) return a.length;
 
-      return a[0] === b[0]
-         ? this.levenshteinDistance(a.slice(1), b.slice(1))
-         : Math.min(
-              this.levenshteinDistance(a.slice(1), b),
-              this.levenshteinDistance(a, b.slice(1)),
-              this.levenshteinDistance(a.slice(1), b.slice(1)),
-           ) + 1;
+      const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+
+      for (let i = 0; i <= a.length; i += 1) matrix[0][i] = i;
+      for (let j = 0; j <= b.length; j += 1) matrix[j][0] = j;
+
+      for (let j = 1; j <= b.length; j += 1) {
+         for (let i = 1; i <= a.length; i += 1) {
+            const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(
+               matrix[j][i - 1] + 1, // deletion
+               matrix[j - 1][i] + 1, // insertion
+               matrix[j - 1][i - 1] + indicator // substitution
+            );
+         }
+      }
+      return matrix[b.length][a.length];
    }
 
    findClosestMatch(input: string, validInputs: string[]) {
@@ -334,7 +343,7 @@ export default class GeneralUtils {
             ],
             params: { type },
             headers: {
-               Authorization: '015445535454455354D6',
+               Authorization: process.env.NEKOBOT_TOKEN || '015445535454455354D6',
             },
          },
          {
@@ -535,150 +544,38 @@ export default class GeneralUtils {
       return `${str}mb`;
    }
 
-   duration(time: number, language: Locale = process.env.LANGUAGE, useMilli: boolean = false, useShort = false) {
+   duration(time: number, language: Locale = process.env.LANGUAGE as any, useMilli: boolean = false, useShort = false) {
       let remain = time;
-      const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365;
-      const millisecondsPerMonth = 1000 * 60 * 60 * 24 * 30;
-      const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-      const millisecondsPerDay = 1000 * 60 * 60 * 24;
-      const millisecondsPerHour = 1000 * 60 * 60;
-      const millisecondsPerMinute = 1000 * 60;
-      const millisecondsPerSecond = 1000;
 
-      const years = Math.floor(remain / millisecondsPerYear);
-      remain = remain % millisecondsPerYear;
+      const units = [
+         { name: 'years', value: 1000 * 60 * 60 * 24 * 365 },
+         { name: 'months', value: 1000 * 60 * 60 * 24 * 30 },
+         { name: 'weeks', value: 1000 * 60 * 60 * 24 * 7 },
+         { name: 'days', value: 1000 * 60 * 60 * 24 },
+         { name: 'hours', value: 1000 * 60 * 60 },
+         { name: 'minutes', value: 1000 * 60 },
+         { name: 'seconds', value: 1000 },
+      ];
 
-      const months = Math.floor(remain / millisecondsPerMonth);
-      remain = remain % millisecondsPerMonth;
-
-      const weeks = Math.floor(remain / millisecondsPerWeek);
-      remain = remain % millisecondsPerWeek;
-
-      const days = Math.floor(remain / millisecondsPerDay);
-      remain = remain % millisecondsPerDay;
-
-      const hours = Math.floor(remain / millisecondsPerHour);
-      remain = remain % millisecondsPerHour;
-
-      const minutes = Math.floor(remain / millisecondsPerMinute);
-      remain = remain % millisecondsPerMinute;
-
-      const seconds = Math.floor(remain / millisecondsPerSecond);
-      remain = remain % millisecondsPerSecond;
-
-      const milliseconds = remain;
-      const result = {
-         years,
-         months,
-         weeks,
-         days,
-         hours,
-         minutes,
-         seconds,
-         milliseconds,
-      };
       const parts: string[] = [];
 
-      if (result.years) {
-         const ret =
-            result.years == 1
-               ? `${result.years} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.years.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.years} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.years.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
+      for (const unit of units) {
+         const amount = Math.floor(remain / unit.value);
+         remain = remain % unit.value;
+
+         if (amount) {
+            const form = amount === 1 ? 'singular' : 'plural';
+            const shortStr = useShort ? 'short.' : '';
+            const translated = this.client.translate(language, `UTILS.GENERAL.DURATION.time.${unit.name}.${shortStr}${form}`);
+            parts.push(`${amount} ${translated}`);
+         }
       }
 
-      if (result.months) {
-         const ret =
-            result.months == 1
-               ? `${result.months} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.months.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.months} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.months.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
+      if (useMilli && remain) {
+         parts.push(`${remain} ms`);
       }
 
-      if (result.weeks) {
-         const ret =
-            result.weeks == 1
-               ? `${result.weeks} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.weeks.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.weeks} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.weeks.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
-      }
-
-      if (result.days) {
-         const ret =
-            result.days == 1
-               ? `${result.days} ${this.client.translate(language, `UTILS.GENERAL.DURATION.time.days.${useShort ? 'short.' : ''}singular`)}`
-               : `${result.days} ${this.client.translate(language, `UTILS.GENERAL.DURATION.time.days.${useShort ? 'short.' : ''}plural`)}`;
-         parts.push(ret);
-      }
-
-      if (result.hours) {
-         const ret =
-            result.hours == 1
-               ? `${result.hours} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.hours.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.hours} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.hours.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
-      }
-
-      if (result.minutes) {
-         const ret =
-            result.minutes == 1
-               ? `${result.minutes} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.minutes.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.minutes} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.minutes.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
-      }
-
-      if (result.seconds) {
-         const ret =
-            result.seconds == 1
-               ? `${result.seconds} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.seconds.${useShort ? 'short.' : ''}singular`,
-                 )}`
-               : `${result.seconds} ${this.client.translate(
-                    language,
-                    `UTILS.GENERAL.DURATION.time.seconds.${useShort ? 'short.' : ''}plural`,
-                 )}`;
-         parts.push(ret);
-      }
-
-      if (useMilli && result.milliseconds) {
-         const ret = `${result.milliseconds} ms`;
-         parts.push(ret);
-      }
-      if (parts.length === 0) {
-         return ['0s'];
-      }
-      return parts;
+      return parts.length === 0 ? ['0s'] : parts;
    }
 
    delay(time = 10) {
