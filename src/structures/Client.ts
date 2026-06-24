@@ -195,8 +195,12 @@ export default class Client extends DiscordClient {
 
    private loadRedis() {
       if (process.env.CACHE_DB == 'true') {
+         let redisUrl = process.env.REDIS_URL || '';
+         if (redisUrl && !redisUrl.startsWith('redis://') && !redisUrl.startsWith('rediss://')) {
+            redisUrl = `redis://${redisUrl}`;
+         }
          this.redisClient = redis.createClient({
-            url: process.env.REDIS_URL,
+            url: redisUrl,
             password: process.env.REDIS_PASSWORD,
          });
 

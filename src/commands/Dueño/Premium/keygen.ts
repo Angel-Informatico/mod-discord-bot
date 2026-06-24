@@ -33,7 +33,9 @@ export default {
                ),
             ],
          });
-      const msTime = parseInt(ms(duration));
+      const msTime = ['infinito', 'infinite'].includes(duration.toLowerCase()) 
+         ? Number(ms('100y')) 
+         : Number(ms(duration));
       if (!msTime)
          return message.reply({
             embeds: [

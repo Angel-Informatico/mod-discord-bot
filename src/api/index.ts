@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as DiscordStrategy } from 'passport-discord';
-import RedisStore from 'connect-redis';
+import { RedisStore } from 'connect-redis';
 import createMemoryStore from 'memorystore';
 const MemoryStore = createMemoryStore(session);
 const app = express();
@@ -50,7 +50,7 @@ export default async (client: Client) => {
                process.env.WEB_DOMAIN == 'localhost'
                   ? `http://${process.env.WEB_DOMAIN}:${process.env.PORT}/auth/discord/callback`
                   : `https://${process.env.WEB_DOMAIN}/auth/discord/callback`,
-            scope: ['identify', 'guilds', 'guilds.join', 'email'],
+            scope: ['identify', 'guilds', 'email'],
          },
          (accessToken, refreshToken, profile, done) => {
             process.nextTick(() => {
@@ -150,23 +150,15 @@ async function loadRoutes() {
    if (RUTA_ARCHIVOS.length) {
       for (const rutaArchivo of RUTA_ARCHIVOS) {
          try {
-            const BASE_PATH = __dirname.toString().slice(1) + '/api/routes';
-            const PATH = '/' + rutaArchivo.split('\\')[0].split('/').slice(1).join('/').split('.')[0].replace(BASE_PATH, '');
-            if (PATH.endsWith('routes/index')) {
-               app.use('/', (await import(rutaArchivo)).default);
-            } else if (PATH.endsWith('index') && !PATH.endsWith('routes/index')) {
-               const DIRNAME = extractRoute(PATH);
-               app.use(DIRNAME, (await import(rutaArchivo)).default);
-            } else {
-               app.use(extractRoute(PATH), (await import(rutaArchivo)).default);
-            }
+            const ROUTE = extractRoute(rutaArchivo);
+            app.use(ROUTE, (await import(rutaArchivo)).default);
          } catch (e) {
             console.log(`ERROR AL CARGAR EL ROUTE ${rutaArchivo}`.bgRed);
             console.error(e);
          }
       }
       // and then finally add the auto redirect on errors
-      app.get('*', (req, res) => {
+      app.use((req, res) => {
          res.redirect('/');
       });
    }

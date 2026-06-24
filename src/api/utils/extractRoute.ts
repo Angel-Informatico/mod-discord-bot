@@ -1,7 +1,9 @@
-export default function extractRoute(filePath) {
-   const baseDir = `${process.cwd()}/dist/api/routes`;
-   const routeParts = filePath.split(baseDir)[1].split('/');
-   const filteredParts = routeParts.filter(part => part !== '' && part !== 'index');
-   const route = '/' + filteredParts.join('/');
-   return route;
+export default function extractRoute(filePath: string) {
+   const parts = filePath.split(/[\\/]routes[\\/]/);
+   if (parts.length > 1) {
+       const routeParts = parts[1].split('.')[0].split(/[\\/]/);
+       const filteredParts = routeParts.filter(part => part !== '' && part !== 'index');
+       return '/' + filteredParts.join('/');
+   }
+   return '/';
 }

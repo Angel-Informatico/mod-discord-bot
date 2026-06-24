@@ -83,9 +83,7 @@ class Database {
    async getPing(): Promise<number> {
       const BEFORE = Date.now();
       const MONGODB_PING = await new Promise((rs) => {
-         mongoose.connection.db
-            .admin()
-            .ping()
+         mongoose.connection.db?.admin().ping()
             .then(() => rs(Date.now() - BEFORE))
             .catch(() => rs(0));
       });

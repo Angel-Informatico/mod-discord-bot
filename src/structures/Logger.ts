@@ -137,8 +137,13 @@ export default class Logger {
          error: this.logColors.title.error(`${this.emoji.error} [ ERROR ]`),
       };
       this.prefix = options?.prefix ? `${options?.prefix} `.blue + this.space : '';
-      this.webhookClient = process.env.WEBHOOK_LOGGER_URL ? new WebhookClient({ url: process.env.WEBHOOK_LOGGER_URL }) : false;
-
+      try {
+         this.webhookClient = process.env.WEBHOOK_LOGGER_URL && process.env.WEBHOOK_LOGGER_URL.startsWith('https://') 
+            ? new WebhookClient({ url: process.env.WEBHOOK_LOGGER_URL }) 
+            : false;
+      } catch (e) {
+         this.webhookClient = false;
+      }
       if (process.env.PRETTY_LOGGER === 'true' || process.env.SAVE_LOGS === 'true' || this.webhookClient) {
          // SI SE HA ACTIVADO LA CUSTOM CONSOLE MOSTRAR SUCCESS
          if (process.env.PRETTY_LOGGER === 'true') this.success(':: [ CUSTOM CONSOLE ENABLED ] ::');

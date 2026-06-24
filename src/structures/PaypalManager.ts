@@ -59,15 +59,13 @@ export default class {
       return new Promise((resolve, reject) => {
          fetch(`${this.baseUrl}/catalogs/products`, {
             method: 'POST',
-            auth: this.auth,
             body: JSON.stringify(productData),
-            json: true,
             headers: {
                Authorization: 'Basic ' + this.auth,
                'Content-Type': 'application/json',
             },
          })
-            .then((response) => response.json())
+            .then((response) => response.json() as Promise<ProductData>)
             .then((data) => {
                resolve(data);
             })
@@ -79,9 +77,7 @@ export default class {
       return new Promise((resolve, reject) => {
          fetch(`${this.baseUrl}/billing/plans`, {
             method: 'POST',
-            auth: this.auth,
             body: JSON.stringify(planData),
-            json: true,
             headers: {
                Authorization: 'Basic ' + this.auth,
                'Content-Type': 'application/json',

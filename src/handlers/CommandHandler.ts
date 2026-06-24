@@ -28,9 +28,9 @@ import { buildCategoryEmbeds } from '@/commands/Info/Bot/help';
 const type = 'COMMANDS';
 
 export async function SlashCMDHandler(client: Client, interaction: ChatInputCommandInteraction) {
-   const GUILD_DATA = await client.db.getGuildData(interaction.guild!.id);
+   const GUILD_DATA = await client.db.getGuildData(interaction.guild?.id || 'DM');
    const USER_DATA = await client.db.getUserData(interaction.user.id);
-   const PLAYER = client.lavalink.getPlayer(interaction.guildId!);
+   const PLAYER = interaction.guildId ? client.lavalink.getPlayer(interaction.guildId) : null;
 
    if (!client.utils.perms.checkPerms(interaction.channel, [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel])) {
       return interaction.reply({
@@ -137,9 +137,9 @@ export async function SlashCMDHandler(client: Client, interaction: ChatInputComm
 }
 
 export async function MessageCMDHandler(client: Client, message) {
-   const GUILD_DATA = await client.db.getGuildData(message.guild.id);
+   const GUILD_DATA = await client.db.getGuildData(message.guild?.id || 'DM');
    const USER_DATA = await client.db.getUserData(message.author.id);
-   const PLAYER = client.lavalink.getPlayer(message.guild.id);
+   const PLAYER = message.guild?.id ? client.lavalink.getPlayer(message.guild.id) : null;
    const PREFIX = GUILD_DATA.prefix;
    const prefixRegex = new RegExp(
       `^(<@!?${
@@ -297,7 +297,7 @@ export function isAllowedToExecute(client: Client, command: Command | Component,
 
 export function isOnCooldown(client: Client, command, ctx, type, language, extras) {
    if (extras.isGuildPremium || extras.isUserPremium) return; // Sin cooldown para usuarios premium
-   const [userId, guildId] = [ctx.user.id, ctx.guild.id];
+   const [userId, guildId] = [ctx.user.id, ctx.guild?.id || 'DM'];
    // Ensuring things
    if (!client.cooldowns.user.has(userId)) client.cooldowns.user.set(userId, new Collection());
    if (!client.cooldowns.guild.has(guildId)) client.cooldowns.guild.set(guildId, new Collection());

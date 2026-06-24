@@ -6,7 +6,7 @@
       ],
       "target": "ESNext",
       "module": "CommonJS",
-      "moduleResolution": "Node",
+      "moduleResolution": "Bundler",
       "resolveJsonModule": true,
       "esModuleInterop": true,
       "rootDir": "./src",

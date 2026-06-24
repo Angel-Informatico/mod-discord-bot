@@ -178,6 +178,7 @@ export default class GeneralUtils {
       }
    }
    receiveCPUUsage() {
+      // @ts-ignore
       return os.cpu.usage(100);
    }
 

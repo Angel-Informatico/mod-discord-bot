@@ -8,7 +8,7 @@ export default async (client: Client, interaction) => {
 
    interaction.author = interaction.user ?? (await client.users.fetch(interaction.userId).catch(() => null));
    interaction.user = interaction.author;
-   interaction.member ??= await interaction.guild.members.fetch(interaction.user.id).catch(() => null);
+   interaction.member ??= interaction.guild ? await interaction.guild.members.fetch(interaction.user.id).catch(() => null) : null;
 
    interaction.attachments = new Collection();
    interaction.mentions = new Collection();
