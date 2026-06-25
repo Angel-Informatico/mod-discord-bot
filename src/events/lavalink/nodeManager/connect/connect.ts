@@ -4,7 +4,6 @@ import LavalinkManager from '@/structures/LavalinkManager';
 export default (manager:LavalinkManager, node) => {
    console.success(`Conectado al nodo ${node.id} de LAVALINK!`);
 
-   // @ts-expect-error
-   const eventName = this.default.NAME;
+   const eventName = 'connect';
    return ExecuteSystems(manager.client, eventName, null, null, manager);
 };

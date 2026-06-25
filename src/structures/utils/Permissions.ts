@@ -84,9 +84,10 @@ export default class PermissionUtils {
     * @returns {boolean} permissions
     */
    checkPerms(channel, ...PermissionFlagsBitsProvided): boolean {
+      if (!channel?.guild) return true;
       if (channel?.guild?.members?.me?.permissions?.has(PermissionFlagsBits.Administrator)) return true;
       if (channel?.guild?.members?.me) return this.checkPermOverwrites(channel, [...PermissionFlagsBitsProvided.flat()]);
-      return channel?.permissionsFor?.(this.client.user!.id)?.has?.([...PermissionFlagsBitsProvided.flat()]);
+      return channel?.permissionsFor?.(this.client.user!.id)?.has?.([...PermissionFlagsBitsProvided.flat()]) ?? false;
    }
    /**
     * if == true | allowed   ---   if === false | denied
@@ -105,8 +106,9 @@ export default class PermissionUtils {
     * @returns {import("discord.js").PermissionsBitField} permissions
     */
    getMissingPerms(channel, ...PermissionFlagsBitsProvided) {
+      if (!channel?.guild) return [];
       if (channel?.guild?.members?.me?.permissions?.has(PermissionFlagsBits.Administrator)) return [];
       if (channel?.guild?.members?.me) return this.missingPermOverwrites(channel, [...PermissionFlagsBitsProvided.flat()]);
-      return channel?.permissionsFor?.(this.client.user!.id)?.missing?.([...PermissionFlagsBitsProvided.flat()]);
+      return channel?.permissionsFor?.(this.client.user!.id)?.missing?.([...PermissionFlagsBitsProvided.flat()]) ?? [];
    }
 }

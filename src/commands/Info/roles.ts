@@ -4,6 +4,7 @@ import Client from '@/structures/Client';
 
 export default {
    ALIASES: ['userroles', 'uroles', 'memberroles', 'mroles'],
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          USER: {

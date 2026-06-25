@@ -1,6 +1,5 @@
-import dns from 'dns';
-dns.setServers(['1.1.1.1', '1.0.0.1']);
+import './dns-setup';
 import './structures/Logger';
 console.info('Iniciando proceso...', { sendWebhook: true });
 import ClusterManager from '@/structures/ClusterManager';
-new ClusterManager(`${__dirname}/bot.js`);
+new ClusterManager(`${__dirname}/bot${__filename.endsWith('.ts') ? '.ts' : '.js'}`);

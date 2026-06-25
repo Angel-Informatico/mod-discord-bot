@@ -1,13 +1,16 @@
 import fastGlob from 'fast-glob';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 export default async function loadFiles(
    dirName: string,
-   includedExtensions: string[] = ['js', 'json'],
+   includedExtensions: string[] = __filename.endsWith('.ts') ? ['ts', 'json'] : ['js', 'json'],
    excludeFiles: string[] | null = null,
    excludeFolders: string[] | null = ["node_modules"],
 ): Promise<string[]> {
-   const distDirName = dirName.replace('src', 'dist');
+   const isTS = __filename.endsWith('.ts');
+   const distDirName = isTS ? dirName : dirName.replace('src', 'dist');
+   
    const globPattern =
       includedExtensions.length === 1
          ? `${process.cwd().replace(/\\/g, '/')}/${distDirName}/**/*.${includedExtensions[0]}`
@@ -26,8 +29,8 @@ export default async function loadFiles(
    // Eliminar la caché de requerimientos para cada archivo cargado
    files.forEach((filePath) => {
       const fullPath = path.resolve(filePath);
-      delete require.cache[fullPath];
+      if (typeof require !== 'undefined' && require.cache) delete require.cache[fullPath];
    });
 
-   return files;
+   return files.map(file => isTS ? pathToFileURL(file).href : file);
 }

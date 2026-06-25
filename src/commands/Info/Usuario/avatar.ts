@@ -14,30 +14,33 @@ export default {
    ],
    USAGE: "<Usuario?>",
    async execute(client:Client, message, args, prefix, guildData) {
-      const member = (await client.utils.general.getMember(message, args[0])) || (message.member as GuildMember);
+      const userTarget = message.mentions.users.first() || (args[0] ? await client.users.fetch(args[0]).catch(() => null) : message.author) || message.author;
+      const member = message.guild ? (await client.utils.general.getMember(message, args[0])) || message.member : null;
+      const user = member?.user || userTarget;
+      const displayName = member?.displayName || user.displayName || user.username;
 
       const buttons: ButtonBuilder[] = [];
 
-      const isAnimatedAvatar = member.user.displayAvatarURL().endsWith('.gif');
+      const isAnimatedAvatar = user.displayAvatarURL().endsWith('.gif');
 
       if (isAnimatedAvatar) {
          buttons.push(
             new ButtonBuilder()
                .setLabel('GIF')
                .setStyle(ButtonStyle.Link)
-               .setURL(member.user.displayAvatarURL({ size: 4096 })),
+               .setURL(user.displayAvatarURL({ size: 4096 })),
 
             new ButtonBuilder()
                .setLabel('PNG')
                .setStyle(ButtonStyle.Link)
-               .setURL(member.user.displayAvatarURL({ size: 4096, extension: 'png' })),
+               .setURL(user.displayAvatarURL({ size: 4096, extension: 'png' })),
          );
       } else {
          buttons.push(
             new ButtonBuilder()
                .setLabel('PNG')
                .setStyle(ButtonStyle.Link)
-               .setURL(member.user.displayAvatarURL({size: 4096 })),
+               .setURL(user.displayAvatarURL({size: 4096 })),
          );
       }
 
@@ -45,10 +48,10 @@ export default {
          embeds: [
             new Embed()
                .setAuthor({
-                  name: client.translate(guildData.language, `${this.LANG_KEY}.embed.author.avatar`, {name: member.displayName}),
-                  iconURL: member.user.displayAvatarURL({ dynamic: true }),
+                  name: client.translate(guildData.language, `${this.LANG_KEY}.embed.author.avatar`, {name: displayName}),
+                  iconURL: user.displayAvatarURL({ dynamic: true }),
                })
-               .setImage(member.user.displayAvatarURL({ dynamic: true, size: 512 })),
+               .setImage(user.displayAvatarURL({ dynamic: true, size: 512 })),
          ],
          components: [new ActionRowBuilder().addComponents(...buttons)],
       });

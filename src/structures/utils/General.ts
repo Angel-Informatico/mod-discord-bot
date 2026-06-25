@@ -194,28 +194,28 @@ export default class GeneralUtils {
    async getMember(message, id) {
       if (!id) return null;
       return message.token
-         ? message.guild.members.cache.get(id) || (await message.guild.members.fetch(id).catch(() => null))
-         : ((message.guild.members.cache.get(id) ||
-              (await message.guild.members.fetch(id).catch(() => null)) ||
-              message.mentions.members.filter((m) => m.guild.id === message.guild.id).first()) as GuildMember);
+         ? message.guild?.members.cache.get(id) || (await message.guild?.members.fetch(id).catch(() => null))
+         : ((message.guild?.members.cache.get(id) ||
+              (await message.guild?.members.fetch(id).catch(() => null)) ||
+              message.mentions.members?.filter((m) => m.guild.id === message.guild?.id).first()) as GuildMember);
    }
 
    async getChannel(message, id) {
       if (!id) return null;
       return message.token
-         ? message.guild.channels.cache.get(id) || (await message.guild.channels.fetch(id).catch(() => null))
-         : ((message.guild.channels.cache.get(id) ||
-              (await message.guild.channels.fetch(id).catch(() => null)) ||
-              message.mentions.channels.filter((m) => m.guild.id === message.guild.id).first()) as GuildChannel);
+         ? message.guild?.channels.cache.get(id) || (await message.guild?.channels.fetch(id).catch(() => null))
+         : ((message.guild?.channels.cache.get(id) ||
+              (await message.guild?.channels.fetch(id).catch(() => null)) ||
+              message.mentions.channels?.filter((m) => m.guild.id === message.guild?.id).first()) as GuildChannel);
    }
 
    async getRole(message, id) {
       if (!id) return null;
       return message.token
-         ? message.guild.roles.cache.get(id) || (await message.guild.roles.fetch(id).catch(() => null))
-         : ((message.guild.roles.cache.get(id) ||
-              (await message.guild.roles.fetch(id).catch(() => null)) ||
-              message.mentions.roles.filter((m) => m.guild.id === message.guild.id).first()) as Role);
+         ? message.guild?.roles.cache.get(id) || (await message.guild?.roles.fetch(id).catch(() => null))
+         : ((message.guild?.roles.cache.get(id) ||
+              (await message.guild?.roles.fetch(id).catch(() => null)) ||
+              message.mentions.roles?.filter((m) => m.guild.id === message.guild?.id).first()) as Role);
    }
 
    async getNsfwImage(ctx, type, userData, guildData, customTags?: string[]) {

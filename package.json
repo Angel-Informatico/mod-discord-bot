@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc && tsc-alias",
     "start": "dotenvx run -f .env.production -- node dist/index.js",
-    "dev": "dotenvx run -f .env.local -- node dist/index.js",
+    "dev": "dotenvx run -f .env.local -- tsx watch src/index.ts",
     "clean": "rm -r dist",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",

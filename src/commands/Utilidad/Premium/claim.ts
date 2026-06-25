@@ -35,6 +35,16 @@ export default {
             ],
          });
 
+      if (!message.guild && keyData.type !== 'user')
+         return message.reply({
+            embeds: [
+               new ErrorEmbed().addField(
+                  "❌ Error",
+                  "Solo puedes reclamar claves de tipo `Usuario` en mensajes directos."
+               ),
+            ],
+         });
+
       keyData.type == 'user' ? await userData.addPremium(keyData.expiration) : await guildData.addPremium(keyData.expiration);
 
       await keyData.deleteOne();

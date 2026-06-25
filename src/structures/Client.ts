@@ -311,6 +311,9 @@ export default class Client extends DiscordClient {
          'CommandHandler.js',
          'ComponentHandler.js',
          'SystemHandler.js',
+         'CommandHandler.ts',
+         'ComponentHandler.ts',
+         'SystemHandler.ts',
       ]);
       if (RUTA_ARCHIVOS.length) {
          await Promise.all(
@@ -403,12 +406,13 @@ export default class Client extends DiscordClient {
       try {
          this.slashArray = [];
          await this.commands.clear();
-         const baseDir = `${process.cwd()}/dist${folderName}`;
+         const isTS = __filename.endsWith('.ts');
+         const baseDir = `${process.cwd()}/${isTS ? 'src' : 'dist'}${folderName}`;
 
-         const dirs = (await promises.readdir(baseDir)).filter((d) => !d.endsWith('.ts'));
+         const dirs = (await promises.readdir(baseDir)).filter((d) => !d.endsWith(isTS ? '.js' : '.ts'));
          for (const dir of dirs) {
             // If its a category aka subcommand / groupcommand:
-            if (!dir.endsWith('.js') && (await promises.lstat(`${baseDir}/${dir}/`).catch(() => null))?.isDirectory?.()) {
+            if (!dir.endsWith(isTS ? '.ts' : '.js') && (await promises.lstat(`${baseDir}/${dir}/`).catch(() => null))?.isDirectory?.()) {
                const category = new Category(this, { name: dir });
                this.categories.set(dir, category);
                // Set the SubCommand as a Slash Builder
@@ -417,7 +421,7 @@ export default class Client extends DiscordClient {
 
                const slashCommands = await promises
                   .readdir(`${baseDir}/${dir}/`)
-                  .then((files) => files.filter((file) => !file.endsWith('.ts')));
+                  .then((files) => files.filter((file) => !file.endsWith(isTS ? '.js' : '.ts')));
 
                for (const file of slashCommands) {
                   const curPath = `${baseDir}/${dir}/${file}`;
@@ -432,15 +436,15 @@ export default class Client extends DiscordClient {
                                 this.logger.error(`Could not find the groupDirSetup for ${dir}/${file}`);
                                 continue;
                             }*/
-                     const slashCommands = await promises.readdir(groupPath).then((x) => x.filter((v) => !v.endsWith('.ts')));
+                     const slashCommands = await promises.readdir(groupPath).then((x) => x.filter((v) => v.endsWith(isTS ? '.ts' : '.js')));
                      if (slashCommands?.length) {
                         const commands = {};
 
                         // CLEAR CMD CACHE
                         for (const sFile of slashCommands) {
                            const groupCurPath = `${groupPath}/${sFile}`;
-                           delete require.cache[require.resolve(groupCurPath)];
-                           commands[sFile] = (await import(groupCurPath)).default;
+                           if (typeof require !== 'undefined' && require.cache) delete require.cache[require.resolve(groupCurPath)];
+                           commands[sFile] = (await import(__filename.endsWith('.ts') ? require('url').pathToFileURL(groupCurPath).href : groupCurPath)).default;
                         }
                         subSlash.addSubcommandGroup((Group) => {
                            Group.setName(String(file).toLowerCase()).setDescription(`Mira los comandos de ${dir}/${file}`);
@@ -498,8 +502,9 @@ export default class Client extends DiscordClient {
                   }
                   // If it's /commands/DIR/cmd.js
                   else {
-                     delete require.cache[require.resolve(curPath)];
-                     const command = (await import(curPath)).default;
+                     if (!file.endsWith(isTS ? '.ts' : '.js')) continue;
+                     if (typeof require !== 'undefined' && require.cache) delete require.cache[require.resolve(curPath)];
+                     const command = (await import(__filename.endsWith('.ts') ? require('url').pathToFileURL(curPath).href : curPath)).default;
                      if (!command?.execute) {
                         console.error(`El comando ${dir}/${file} no está configurado!`);
                         continue;
@@ -537,8 +542,9 @@ export default class Client extends DiscordClient {
                this.slashArray.push(subSlash.toJSON());
             } else {
                const curPath = `${baseDir}/${dir}`;
-               delete require.cache[require.resolve(curPath)];
-               const command = (await import(curPath)).default;
+               if (!dir.endsWith(isTS ? '.ts' : '.js')) continue;
+               if (typeof require !== 'undefined' && require.cache) delete require.cache[require.resolve(curPath)];
+               const command = (await import(__filename.endsWith('.ts') ? require('url').pathToFileURL(curPath).href : curPath)).default;
                if (!command?.execute) {
                   console.error(`El comando ${dir} no está configurado!`);
                   continue;

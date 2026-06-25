@@ -5,6 +5,7 @@ import { TextChannel } from 'discord.js';
 
 export default {
    ALIASES: ['channelinfo', 'infochannel'],
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          CHANNEL: {

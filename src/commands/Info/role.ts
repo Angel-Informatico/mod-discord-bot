@@ -5,6 +5,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Role } from 'discord.js';
 
 export default {
    ALIASES: ['roleinfo', 'inforole'],
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          ROLE: {

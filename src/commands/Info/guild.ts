@@ -6,6 +6,7 @@ import LocaleEmojis from '@/config/LocaleEmojis';
 
 export default {
    ALIASES: ['serverinfo', 'guildinfo'],
+   GUILD_ONLY: true,
    execute(client: Client, message, args, prefix, guildData) {
       const { guild } = message;
       const guildLanguage = Object.keys(Locale).find((v) => Locale[v] === guild.preferredLocale) || client.allemojis.question;

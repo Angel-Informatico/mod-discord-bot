@@ -22,7 +22,6 @@ export default {
    Dueño: {
       EMOJI: EmojiList.crown,
       OWNER: true,
-      GUILD_ONLY: true
    },
    Economia: {
       EMOJI: EmojiList.money,

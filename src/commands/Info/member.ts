@@ -5,6 +5,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildMember } from 'disco
 
 export default {
    ALIASES: ['userinfo', 'memberinfo'],
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          USER: {

@@ -5,6 +5,7 @@ import Client from '@/structures/Client';
 
 export default {
    ALIASES: ['perms'],
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          STRING: {

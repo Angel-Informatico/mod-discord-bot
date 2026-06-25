@@ -203,7 +203,7 @@ export function getHelpMessage(client: Client, message, guildData, prefix: strin
       ])
       .setThumbnail(client.user!.displayAvatarURL())
       .setFooter({
-         text: `Cluster #${client.cluster.id} | Shard #${message.guild.shardId}`,
+         text: `Cluster #${client.cluster.id} | Shard #${message.guild?.shardId ?? 0}`,
          iconURL: client.user!.displayAvatarURL(),
       });
 

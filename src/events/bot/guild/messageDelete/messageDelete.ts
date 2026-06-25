@@ -8,7 +8,6 @@ export default async (client: Client, deletedMessage: Message) => {
    const GUILD_DATA = guild ? await client.db.getGuildData(guild.id) : null;
    const USER_DATA = author ? await client.db.getUserData(author.id) : null;
 
-   // @ts-expect-error
-   const eventName = this.default.NAME as string;
+   const eventName = 'messageDelete';
    return ExecuteSystems(client, eventName, GUILD_DATA, USER_DATA, deletedMessage);
 };

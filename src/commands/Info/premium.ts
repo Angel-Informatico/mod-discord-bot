@@ -8,20 +8,22 @@ export default {
       const embed = new Embed()
       .setThumbnail(client.user!.displayAvatarURL());
 
-      if(guildData.isPremium){
-         embed
-         .addField(
-            client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.premium.name`),
-            client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.premium.value`, {
-               expiration: client.utils.general.toUnixTimestamp(guildData.premium)
-            }),
-         )
-      } else {
-         embed
-         .addField(
-            client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.notPremium.name`),
-            client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.notPremium.value`)
-         )
+      if(message.guild) {
+         if(guildData.isPremium){
+            embed
+            .addField(
+               client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.premium.name`),
+               client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.premium.value`, {
+                  expiration: client.utils.general.toUnixTimestamp(guildData.premium)
+               }),
+            )
+         } else {
+            embed
+            .addField(
+               client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.notPremium.name`),
+               client.translate(guildData.language, `${this.LANG_KEY}.fields.guild.notPremium.value`)
+            )
+         }
       }
 
 

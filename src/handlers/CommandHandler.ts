@@ -87,7 +87,7 @@ export async function SlashCMDHandler(client: Client, interaction: ChatInputComm
             } else if (option.value) args.push(option.value as string);
          }
 
-         return slashCmd.execute!(client, interaction, args, '/', GUILD_DATA, USER_DATA, PLAYER);
+         return await slashCmd.execute!(client, interaction, args, '/', GUILD_DATA, USER_DATA, PLAYER);
          // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {
          console.error(e);
@@ -207,7 +207,7 @@ export async function MessageCMDHandler(client: Client, message) {
             return;
 
          // console.log(`Execute - ${Date.now()}\n\n\n`);
-         return COMANDO.execute!(client, message, ARGS, PREFIX, GUILD_DATA, USER_DATA, PLAYER);
+         return await COMANDO.execute!(client, message, ARGS, PREFIX, GUILD_DATA, USER_DATA, PLAYER);
          // OP METHOD TO GET FASTER REPONSES ON NON-ASYNC CMDS
          // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {

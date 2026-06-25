@@ -8,7 +8,6 @@ export default async (client: Client, oldState:VoiceState, newState:VoiceState) 
    const GUILD_DATA = guild ? await client.db.getGuildData(guild.id) : null;
    const USER_DATA = id ? await client.db.getUserData(id) : null;
 
-   // @ts-expect-error
-   const eventName = this.default.NAME;
+   const eventName = 'voiceStateUpdate';
    return ExecuteSystems(client, eventName, GUILD_DATA, USER_DATA, oldState, newState);
 };

@@ -12,7 +12,7 @@ export default {
                `> <t:${UPTIME}:F> | <t:${UPTIME}:R>`,
             )
             .setFooter({
-               text: `Cluster #${client.cluster.id} - Shard: #${message.guild.shardId}`,
+               text: `Cluster #${client.cluster.id} - Shard: #${message.guild?.shardId ?? 0}`,
                iconURL: client.user!.displayAvatarURL(),
             })
          ],

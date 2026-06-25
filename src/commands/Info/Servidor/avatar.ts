@@ -4,6 +4,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
 export default {
    ALIASES: ["guildavatar", "serveravatar", "gavatar", "savatar", "svavatar"],
+   GUILD_ONLY: true,
    execute(client, message, args, prefix, guildData) {
       const buttons: ButtonBuilder[] = [];
 

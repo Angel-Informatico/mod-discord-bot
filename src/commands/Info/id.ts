@@ -4,6 +4,7 @@ import { Embed } from '@/extenders/discord/Embed';
 import Client from '@/structures/Client';
 
 export default {
+   GUILD_ONLY: true,
    OPTIONS: [
       {
          STRING: {

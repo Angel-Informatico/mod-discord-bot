@@ -10,12 +10,14 @@ const mode: ClusterManagerMode =
    process.env.SHARDING_MODE === 'worker' || process.env.SHARDING_MODE === 'process' ? process.env.SHARDING_MODE : 'worker';
 
 
+const isTS = __filename.endsWith('.ts');
 const DefaultClusterOptions: ClusterManagerOptions = {
    totalShards: Number(process.env.TOTAL_SHARDS) || 'auto',
    shardsPerClusters: Number(process.env.SHARDS_PER_CLUSTER) || 1,
    mode,
    token: process.env.BOT_TOKEN,
    respawn: true,
+   execArgv: isTS ? ['--import', 'tsx'] : [],
 };
 
 export default class ClusterManager extends DefaultClusterManager {

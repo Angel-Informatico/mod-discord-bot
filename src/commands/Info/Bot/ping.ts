@@ -6,7 +6,7 @@ import { Command } from '@/structures/Command';
 export default {
    ALIASES: ['latency', 'ms'],
    async execute(client:Client, message:Message | ChatInputCommandInteraction, args, prefix:string, guildData) {
-      const dbLatency = await client.db.getLatency(message.guild!.id);
+      const dbLatency = await client.db.getLatency(message.guild?.id);
       const dbPing = await client.db.getPing();
       message.reply({
          embeds: [

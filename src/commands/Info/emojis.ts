@@ -3,6 +3,7 @@ import { Embed } from '@/extenders/discord/Embed';
 import Client from '@/structures/Client';
 
 export default {
+   GUILD_ONLY: true,
    execute(client: Client, message, args, prefix, guildData) {
       const guildEmojis =
          message.guild.emojis.cache.size >= 1
