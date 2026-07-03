@@ -370,7 +370,11 @@ export default class Client extends DiscordClient {
 
    async loadComponent(component: string) {
       console.info(`([x]) Cargando ${`${component}`.capitalizeFirstChar().removeLastChar()}`);
-      const baseDir = `${process.cwd().replace(/\\/g, '/')}/dist/components/${component}`;
+      
+      const isTS = __filename.endsWith('.ts');
+      const baseDir = `${process.cwd().replace(/\\/g, '/')}/${isTS ? 'src' : 'dist'}/components/${component}`;
+      const baseUrl = isTS ? require('url').pathToFileURL(baseDir).href : baseDir;
+
       await this[component].clear();
 
       const RUTA_ARCHIVOS = await this.utils.general.loadFiles(`/src/components/${component}`);
@@ -379,7 +383,7 @@ export default class Client extends DiscordClient {
             RUTA_ARCHIVOS.map(async (ruta) => {
                const PULL = (await import(ruta)).default;
                const PULL_NAME = ruta
-                  .replace(baseDir, '')
+                  .replace(baseUrl, '')
                   .slice(1)
                   .split('/')
                   .map((part) => part.replace(/\.[^/.]+$/, ''))
